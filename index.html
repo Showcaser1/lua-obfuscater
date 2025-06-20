@@ -1,44 +1,239 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔥 Roblox Lua Obfuscator</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
-</head>
-<body>
-    <div class="container">
-        <h1>🔒 Roblox Lua Obfuscator</h1>
-        <p>Make your scripts unreadable while keeping them functional in Roblox!</p>
-        
-        <div class="editor-container">
-            <div class="editor">
-                <h3>Input Lua Code</h3>
-                <textarea id="input" placeholder="Paste your Lua code here..."></textarea>
-            </div>
-            <div class="editor">
-                <h3>Obfuscated Output</h3>
-                <textarea id="output" readonly placeholder="Obfuscated code will appear here..."></textarea>
-            </div>
-        </div>
+:root {
+    --primary: #bb86fc;
+    --primary-dark: #3700b3;
+    --background: #1e1e2e;
+    --surface: #2d2d3d;
+    --error: #cf6679;
+    --text: #e0e0e0;
+    --text-secondary: #a0a0a0;
+}
 
-        <button id="obfuscate-btn">⚡ Obfuscate</button>
-        <button id="copy-btn">📋 Copy</button>
-        <button id="clear-btn">🗑️ Clear</button>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        <div class="settings">
-            <label>
-                <input type="checkbox" id="junk-code" checked> Add Junk Code
-            </label>
-            <label>
-                <input type="checkbox" id="string-encode" checked> Encode Strings
-            </label>
-        </div>
-    </div>
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+}
 
-    <footer>
-        <p>Made for Roblox developers | Hosted on GitHub Pages</p>
-    </footer>
-</body>
-</html>
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    color: var(--primary);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.editor-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.editor-box {
+    flex: 1;
+    min-width: 300px;
+    background: var(--surface);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.editor-box:hover {
+    transform: translateY(-2px);
+}
+
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.editor-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+button {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button:hover {
+    background: var(--primary);
+    color: #000;
+}
+
+textarea {
+    width: 100%;
+    height: 400px;
+    padding: 16px;
+    background: var(--surface);
+    color: var(--text);
+    border: none;
+    resize: none;
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+textarea:focus {
+    outline: 2px solid var(--primary);
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.settings {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.switch {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: relative;
+    width: 50px;
+    height: 24px;
+    background-color: #ccc;
+    border-radius: 24px;
+    transition: .4s;
+}
+
+.slider:before {
+    content: "";
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.status {
+    padding: 12px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    font-size: 0.9rem;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    background: var(--primary-dark);
+    color: white;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.tooltip:hover::after {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .editor-container {
+        flex-direction: column;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+}
