@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 Roblox Lua Obfuscator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 Roblox Lua Obfuscator</h1>
+        <p>Make your scripts unreadable while keeping them functional in Roblox!</p>
+        
+        <div class="editor-container">
+            <div class="editor">
+                <h3>Input Lua Code</h3>
+                <textarea id="input" placeholder="Paste your Lua code here..."></textarea>
+            </div>
+            <div class="editor">
+                <h3>Obfuscated Output</h3>
+                <textarea id="output" readonly placeholder="Obfuscated code will appear here..."></textarea>
+            </div>
+        </div>
+
+        <button id="obfuscate-btn">⚡ Obfuscate</button>
+        <button id="copy-btn">📋 Copy</button>
+        <button id="clear-btn">🗑️ Clear</button>
+
+        <div class="settings">
+            <label>
+                <input type="checkbox" id="junk-code" checked> Add Junk Code
+            </label>
+            <label>
+                <input type="checkbox" id="string-encode" checked> Encode Strings
+            </label>
+        </div>
+    </div>
+
+    <footer>
+        <p>Made for Roblox developers | Hosted on GitHub Pages</p>
+    </footer>
+</body>
+</html>
